@@ -10,22 +10,21 @@
 float angle=5,xpos=-1;
 
 void idle()
-  {
+{
+    angle+=5;
 
-angle+=5;
+    if(xpos<=1)
+    xpos+=0.0005;
+    else
+    xpos=xpos-2;
 
-if(xpos<=1)
-xpos+=0.0002;
-else
-xpos=xpos-2;
-
-glutPostRedisplay();
+    glutPostRedisplay();
 }
 
 void display()
 
 {
-     glClearColor(1, 1, 1, 1.0); // white background
+     glClearColor(1, 1, 1, 1); // white background
      glClear(GL_COLOR_BUFFER_BIT);
 
 	 glPushMatrix();
@@ -35,7 +34,9 @@ void display()
 
      glColor3f(0,0,0); // black foreground
      glScalef(0.1,0.1,0.1);
-     glutWireTorus(0.5, 2.0, 30, 30);
+     glutWireTorus(0.5, 2.0, 150, 30);
+     glColor3f(1,0,0);
+     glutWireTorus(0.25, 1.0, 75, 15);
      glPopMatrix();
 
      glutSwapBuffers();
