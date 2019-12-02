@@ -11,6 +11,8 @@
 #include <GL/glut.h>
 #endif
 float angle=5,xpos=-1;
+double rand1, rand2, rand3, rand4 = 0;
+
 int wsize = 750;
 bool paused = false;
 int squaresize = 16;
@@ -32,12 +34,64 @@ void idle_ban()
     glutPostRedisplay();
 }
 
-void display_ban()
+void ban()
 
 {
-     glClearColor(1, 1, 1, 0); // white background
+      glClearColor(1, 1, 1, 0); // white background
      glClear(GL_COLOR_BUFFER_BIT);
 
+     glPushMatrix();
+     glTranslatef(xpos,-0.25,0);
+     glRotatef(0,0,0,0);
+     glBegin(GL_POLYGON);
+     glColor3f(0.9, 0.5, 0.3);
+
+     glVertex3f(-0.5, 0.5, 0.5);
+     glVertex3f(-rand1, 0.2, 0.5);
+     glVertex3f(-rand2, 0.3, 0.5);
+     glVertex3f(-rand3, 0.4, 0.5);
+     glVertex3f(0, -0.01, 0.5);
+
+     glVertex3f(0, 0.5, 0.5);
+     glVertex3f(-rand3, 0.2, 0.5);
+     glVertex3f(-rand2, 0.3, 0.5);
+     glVertex3f(-rand1, 0.4, 0.5);
+     glVertex3f(0, -0.01, 0);
+
+     glVertex3f(0, 0.5, 0);
+     glVertex3f(-rand1, 0.2, 0);
+     glVertex3f(-rand2, 0.3, 0);
+     glVertex3f(-rand3, 0.2, 0);
+     glVertex3f(-0.5, -0.01, 0);
+
+     glVertex3f(-0.5, 0.5, 0);
+     glVertex3f(-rand3, 0.1, 0);
+     glVertex3f(-rand2, 0.2, 0);
+     glVertex3f(-rand1, 0.1, 0);
+     glVertex3f(-0.5, -0.01, 0.5);
+
+     glEnd();
+     if (xpos += 0.0004){
+        double randomnum = rand() % 5 + 1;
+        if (randomnum > 1)
+        {
+            rand1 = randomnum;
+
+            // randomnum = 3.4;
+            rand2 = randomnum;
+
+            // randomnum = 4;
+            rand3 = randomnum;
+        }
+        else
+        {
+            rand1 = 1;
+            rand2 = 0.2;
+            rand3 = 0;
+        }
+        }
+        else{}
+     glPopMatrix();
 
 	 glPushMatrix();
      glTranslatef(xpos,0,0);
@@ -55,10 +109,14 @@ void display_ban()
      glPopMatrix();
 
 
-     glutSwapBuffers();
+     glutPostRedisplay();
+     glFlush();
 }
-
-
+void display()
+ {
+     ban();
+     glutSwapBuffers();
+ }
 
 void makeSquare(){
   int i,j,k,coeffs[6];
@@ -236,17 +294,17 @@ int main(int argc,char** argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutCreateWindow("burnout");
 
-    glClearColor(1,1,1,0);
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+    //glClearColor(1,1,1,0);
+    //glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    //glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
 
 
-    glutDisplayFunc(display_ban);
+    glutDisplayFunc(display);
     glutIdleFunc(idle_ban);
-    glutReshapeFunc(reshape_smoke);
-    glutDisplayFunc(display_smoke);
+    //glutReshapeFunc(reshape_smoke);
+    //glutDisplayFunc(display_smoke);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(keyboardSpecials);
 
